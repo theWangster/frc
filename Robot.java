@@ -247,8 +247,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		// For Driving use one or the other
 		// TwistRotate(Controller.getRawAxis(Constants.Joystick_twistAxis));
-		// JoystickMovement(Controller.getRawAxis(Constants.Joystick_xAxis),
-		// 		-Controller.getRawAxis(Constants.Joystick_yAxis));
+		JoystickMovement(Controller.getRawAxis(Constants.Joystick_xAxis),
+		 		-Controller.getRawAxis(Constants.Joystick_yAxis));
 		updateMotorsABCD();
 		Launcher.shoot();
 		// OR
@@ -358,12 +358,10 @@ public class Robot extends TimedRobot {
 			speed = 5 / 2 * speed - 0.2;
 		}
 		speed *= (yAxis < 0) ? -1 : 1;
+		System.out.println(direction);
 		if (Math.abs(direction) < Constants.LOCK_TO_AXIS_PI) {
+			System.out.println("Corrected");
 			accelMotors(new double[] { speed, speed });
-		} else if (Math.abs(direction + Math.PI / 2) < Constants.LOCK_TO_AXIS_PI) {
-			ArcTurn(0, speed);
-		} else if (Math.abs(direction - Math.PI / 2) < Constants.LOCK_TO_AXIS_PI) {
-			ArcTurn(0, speed);
 		} else {
 			// math to get radius of turns
 			double radius = 1 / (Math.tan(direction)) * Constants.TurningSensitivity;

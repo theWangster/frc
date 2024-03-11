@@ -36,7 +36,7 @@ public final class Constants {
 	public static final double GEAR_RATIO = 28.5714285714; // ratio of 1:x on motor gears
 
 	// movement presets
-	public static double SpeedLimit = 1; // multiplier for overall speed (less than 1)
+	public static double SpeedLimit = 0.1; // multiplier for overall speed (less than 1)
 	public static double Acceleration = 0.01;// how much to accelerate
 	public static final double DistanceAdjust = 1;// multiplier of distance output using encoders
 	public static final double TurningSensitivity = 0.2; // how much to turn in arcRotation Teleop Mod
@@ -48,12 +48,12 @@ public final class Constants {
 	public static final double MOTORKD = 0;
 
 	// EVERYBOT CONSTANTS
-	static final int DRIVE_CURRENT_LIMIT_A = 60;
-	static final int FEEDER_CURRENT_LIMIT_A = 60;
+	static final int DRIVE_CURRENT_LIMIT_A = 80;
+	static final int FEEDER_CURRENT_LIMIT_A = 80;
 	static final double FEEDER_OUT_SPEED = 1.0;
 	static final double FEEDER_IN_SPEED = -.4;
 	static final double FEEDER_AMP_SPEED = .4;
-	static final int LAUNCHER_CURRENT_LIMIT_A = 60;
+	static final int LAUNCHER_CURRENT_LIMIT_A = 80;
 	static final double LAUNCHER_SPEED = 1;
 	
 	static final double CLAW_OUTPUT_POWER = .5;

@@ -17,14 +17,13 @@ public class Arm {
   CANSparkBase m_rollerClaw;
   CANSparkBase m_climber;
   Joystick Controller;
-  boolean isPressed = false;
+  boolean isRamping = false;
   double curTime = Timer.getFPGATimestamp();
-  double launchTime = 10000000;
-  double feedTime = 10000000;
+  double launchTime = -1;
 
   public void armInit(Joystick Controller) {
-    m_feedWheel = new CANSparkMax(5, MotorType.kBrushed);
-    m_launchWheel = new CANSparkMax(6, MotorType.kBrushed);
+    m_feedWheel = new CANSparkMax(6, MotorType.kBrushed);
+    m_launchWheel = new CANSparkMax(5, MotorType.kBrushed);
     this.Controller = Controller;
     // To change launcher direction
     m_feedWheel.setInverted(true);
@@ -34,38 +33,27 @@ public class Arm {
     m_launchWheel.setSmartCurrentLimit(Constants.LAUNCHER_CURRENT_LIMIT_A);
   }
 
+
   public void shoot() {
-    // Arm and Other controls
-
-    // if (Controller.getRawButton(Constan ts.Launcher_Button)) {
-    // 	m_launchWheel.set(LAUNCHER_SPEED);
-    // } else if (Controller.getRawButtonReleased(1)) {
-    // 	m_launchWheel.set(0);
-    // }
-
-    // Spins feeder wheel, wait for launch wheel to spin up to full speed for best
-    // results
+    curTime = Timer.getFPGATimestamp();
 
     if (Controller.getRawButtonPressed(1)) {
+      isRamping = true;
       m_launchWheel.set(1);
-      if (launchTime > curTime) {
-        m_feedWheel.set(1);
-      }
-      // System.out.println("Initial Time:"+initialtime);
-      // double finaltime = initialtime + 3;
-      // System.out.println("final time:"+finaltime);
-      // System.out.println("Time reached");
+      m_feedWheel.set(1);
     } else if (Controller.getRawButtonReleased(1)) {
-      launchTime = 1000000;
-      m_feedWheel.set(0);
-      m_launchWheel.set(0);
+      // this is disgraceful but ok
+      if (false) {
+        m_feedWheel.set(1);
+        m_launchWheel.set(1);
+      } else {
+        m_feedWheel.set(0);
+        m_launchWheel.set(0);
+      }
     }
+
+    // intake code
     if (Controller.getRawButtonPressed(4)) {
-      // double initialtime = Timer.getFPGATimestamp();
-      // System.out.println("Initial Time:"+initialtime);
-      // double finaltime = initialtime + 3;
-      // System.out.println("final time:"+finaltime);
-      // System.out.println("Time reached");
       m_feedWheel.set(-0.50);
       m_launchWheel.set(-0.50);
     } else if (Controller.getRawButtonReleased(4)) {
@@ -73,6 +61,7 @@ public class Arm {
       m_launchWheel.set(0);
     }
   }
+
   // While the button is being held spin both motors to intake note
   // if (Controller.getRawButton(Constants.Intake_Button)) {
   // 	m_launchWheel.set(-LAUNCHER_SPEED);
